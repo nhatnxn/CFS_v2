@@ -298,6 +298,7 @@ class CFS(object):
                         if not t_score[0]:
                             no_eqt.append(eqt)
                             no_eqt = set(no_eqt)
+                            no_eqt = list(no_eqt)
                         else:
                             try:
                                 no_eqt.remove(eqt)
@@ -329,6 +330,7 @@ class CFS(object):
                         if not code_score[0]:                        
                             no_code.append(code)
                             no_code = set(no_code)
+                            no_code = list(no_code)
                         else:
                             try:
                                 no_code.remove(code)
