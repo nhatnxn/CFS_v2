@@ -1,0 +1,13 @@
+paddlepaddle
+paddleocr
+opencv_draw_annotation
+pymupdf
+unidecode
+einops
+gdown
+fuzzywuzzy
+pytesseract
+imutils
+easyocr
+transformers==4.9.0
+nltk

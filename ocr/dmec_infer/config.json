@@ -1,0 +1,69 @@
+{
+    "equipmentList": {
+        "name": "",
+        "type": "",
+        "code": "",
+        "group": 0,
+        "medicalEquipmentType": 0,
+        "factoryList": [
+            {
+                "address": "",
+                "country": "",
+                "name": ""
+            }
+        ],
+        "page": "",
+        "location": ""
+    },
+    "keyExtract": {
+        "name": [
+            "Tên trang thiết bị y tế",
+            "Name of medical equipment",
+            "Tên trang thiết bị y tế Name of medical equipment"
+        ],
+        "type": [
+            "Chủng loại",
+            "Chủng loại/ Mã sản phẩm",
+            "Chủng loại/ mã sản phẩm",
+            "Chủng loại/ Mã sản phẩm Model"
+        ],
+        "code": [
+            "Mã sản phẩm",
+            "Chủng loại/ Mã sản phẩm",
+            "Chủng loại/ mã sản phẩm",
+            "Chủng loại/ Mã sản phẩm Model"
+        ],
+        "factory_address": [
+            "Hãng, nước chủ sở hữu",
+            "Hãng, nước chủ sở hữu Legal manufacturer, Country"
+        ],
+        "factory_name": [
+            "Hãng, nước sản xuất",
+            "Hãng, nước sản xuất Manufacturing site, Country"
+        ],
+        "medicalEquipmentType": [
+            "Mức độ rủi ro được phân loại",
+            "Loại trang thiết bị y tế",
+            "Mức độ rủi ro được phân loại Risk classification of medical equipment"
+        ]
+    },
+    "appendix": [
+        "Theo danh mục đính kèm",
+        "Theo phụ lục đính kèm",
+        "Theo phụ lục"
+    ],
+    "registrant": {
+        "keywords": [
+            "cau",
+            "cong ty"
+        ],
+        "name_question": {
+            "question": "Theo yêu cầu của công ty gì?",
+            "context": ""
+        },
+        "address_question": {
+            "question": "Công ty có địa chỉ tại đâu?",
+            "context": ""
+        }
+    }
+}

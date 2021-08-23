@@ -1,0 +1,81 @@
+
+# url or local path
+aug:
+  image_aug: true
+  masked_language_model: true
+backbone: vgg19_bn
+cnn:
+  hidden: 256
+  ks:
+  - - 2
+    - 2
+  - - 2
+    - 2
+  - - 2
+    - 1
+  - - 2
+    - 1
+  - - 1
+    - 1
+  ss:
+  - - 2
+    - 2
+  - - 2
+    - 2
+  - - 2
+    - 1
+  - - 2
+    - 1
+  - - 1
+    - 1
+dataloader:
+  num_workers: 4
+  pin_memory: true
+dataset:
+  data_root: /vinbrain/quatpv/Git/eKYC/Hoang_tmp/DMEC/data
+  image_height: 32
+  image_max_width: 1024
+  image_min_width: 32
+  is_padding: true
+  name: dmec_v1
+  padding_type: right
+  round_to: 50
+  separate: '||||'
+  train_annotation: sample_train_labels.txt
+  train_lmdb:
+  - train_dmec_v1
+  valid_annotation: sample_train_labels.txt
+  valid_lmdb: valid_dmec_v1
+device: cuda
+monitor:
+  log_dir: ./logs/seq2seq_dmec_exp_2
+  num_samples: 8
+optimizer:
+  max_lr: 0.001
+  pct_start: 0.1
+predictor:
+  beamsearch: false
+  sensitive_case: true
+pretrain:
+  cached: /tmp/tranformerorc.pth
+  id_or_url: 1nTKlEog9YFK74kPyX0qLwCWi60_YHHk4
+  md5: efcabaa6d3adfca8e52bda2fd7d2ee04
+quiet: false
+seq_modeling: seq2seq
+trainer:
+  batch_size: 32
+  is_finetuning: false
+  iters: 200000
+  metrics: 8000
+  pretrained: null
+  print_every: 500
+  resume_from: null
+  valid_every: 5000
+transformer:
+  decoder_embedded: 256
+  decoder_hidden: 256
+  dropout: 0.1
+  encoder_hidden: 256
+  img_channel: 256
+vocab: 'aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ0123456789!"#$%&''()*+,-./:;<=>?@[\]^_`{|}~ '
+weights: https://drive.google.com/uc?id=1qG9XGnvsvaXztDjFfYxxvUwNKRFs4Pgi

@@ -1,0 +1,14 @@
+opencv-python==4.2.0.32
+pillow==8.0.1
+paddleocr==2.0.6
+paddlepaddle==2.1.1
+paddlepaddle-gpu==2.1.1
+PyMuPDF==1.18.14
+fuzzywuzzy==0.18.0
+seqeval
+sklearn_crfsuite
+easyocr
+transformers==4.9.0
+pytesseract
+onnxruntime
+googletrans==4.0.0-rc1

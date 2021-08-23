@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__
+__init__.py
+.ipynb_checkpoints
+samples
+*.pt
+demo
+modules/mrc/weights/vi-mrc-base/*
+dmec_infer.zip
