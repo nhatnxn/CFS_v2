@@ -19,75 +19,95 @@ date_model = onnxruntime.InferenceSession("models/yolov5/date.onnx", providers=[
 
 
 def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.datetime.now()):
-    pdf_paths = [".tmp/cfs.pdf"]  
+    
     cfs = CFS()
     FLAGS = [0,0,0,0,0,0]
     COMMENTS = [0,0,0,0,0,0,0]
     attachmentFileList = []
-    ERR = []
     no_eqt = []
     no_code = []
-    if pdf_paths:
-        for doc_number, pdf_path in enumerate(pdf_paths):
-            flags = [0,0,0,0,0,0]
-            
-            if 0 in flags:
+    for attachment in json_data['attachmentList']:
+        if attachment['code'] == 'CNLH':
+            attachmentName = attachment['name']
+            for doc_number, info in enumerate(attachment['fileList']):
+                pdf_url = info['url']
+
                 try:
-                    text = cfs.tool_reader(pdf_path)
+                    resp = requests.get(pdf_url, verify=False)
                 except:
-                    if doc_number<= len(pdf_path):
+                    if doc_number<= len(attachment['fileList']):
                         continue
-                    return None, None, None, None
+                    return None
+                pdf_path = f"tmp/cfs.pdf"
+                pdf_file = open(pdf_path, 'wb')
+                pdf_file.write(resp.content)
+                pdf_file.close()
                 
-                comments = []
-                if "PHIẾU TIẾP NHẬN" in text['page_1']:
-                    output = cfs.get_ptn_info(text)
-                    final_result, doc_type, err, flags, COMMENTS, no_code, no_eqt = cfs.final_result(query=json_data,vertical_result=output, no_eqt=no_eqt, no_code=no_code, ptn=True,flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
-                    ERR.extend(err)
-                    comments.extend(final_result)
-                    print('ptn_flags: ', flags)
-                else:
-                    vertical_results, horizontal_results, lsq_detect, images = cfs.deeplearning_reader(pdf_path, reader=reader, lsq_model=lsq_model, date_model=date_model, check_annot=True)                
+                
+                flags = [0,0,0,0,0,0]
+                ERR = []
+                if 0 in flags:
+                    try:
+                        text = cfs.tool_reader(pdf_path)
+                    except:
+                        if doc_number<= len(pdf_path):
+                            continue
+                        return None, None, None, None
                     
-                    # try:
-                    # x = push_result(vertical_results,horizontal_results)
-                    
-                    final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data, file_pdf=pdf_path, vertical_results=vertical_results, horizontal_results=horizontal_results, no_eqt=no_eqt, no_code=no_code, check_annot=True, flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
-                    
-                    if lsq_detect[0]:
-                        final_result.append({
-                            "commentContent" : "Có dấu lãnh sự quán | trang {"+f"{lsq_detect[1]}"+"}",
-                            "commentStatus" : "OK"
-                        })
-                        flags[5] = 1
-                        if COMMENTS[5]:
-                            COMMENTS[5] = COMMENTS[5] + f', tài liệu số {doc_number+1} | trang {lsq_detect[1]}'
-                        else:
-                            COMMENTS[5] = f'Có dấu lãnh sự quán tài liệu số {doc_number+1} | trang {lsq_detect[1]}'
-                    comments.extend(final_result)
-                    if 0 in flags:
-                        vertical_results, horizontal_results, _ = cfs.deeplearning_reader(pdf_path, reader=reader, lsq_model=lsq_model, date_model=date_model, check_annot=False, images=images)
-                        
-                        final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data, file_pdf=pdf_path, vertical_results=vertical_results, horizontal_results=horizontal_results, no_eqt=no_eqt, no_code=no_code, check_annot=False, flags=flags, doc_number=doc_number+1, COMMENTS=COMMENTS, time_check=time_check)
-                        
+                    comments = []
+                    if "PHIẾU TIẾP NHẬN" in text['page_1']:
+                        output = cfs.get_ptn_info(text)
+                        final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data,vertical_result=output, no_eqt=no_eqt, no_code=no_code, ptn=True,flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
+                        ERR.extend(err)
                         comments.extend(final_result)
+                        print('ptn_flags: ', flags)
+                    else:
+                        vertical_results, horizontal_results, lsq_detect, images = cfs.deeplearning_reader(pdf_path, reader=reader, lsq_model=lsq_model, date_model=date_model)                
+                        
+                        # try:
+                        # x = push_result(vertical_results,horizontal_results)
+                        
+                        final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data, file_pdf=pdf_path, vertical_results=vertical_results, horizontal_results=horizontal_results, no_eqt=no_eqt, no_code=no_code, check_annot=True, flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
+                        ERR.extend(err)
+                        if lsq_detect[0]:
+                            final_result.append({
+                                "commentContent" : "Có dấu lãnh sự quán | trang {"+f"{lsq_detect[1]}"+"}",
+                                "commentStatus" : "OK"
+                            })
+                            flags[5] = 1
+                            if COMMENTS[5]:
+                                COMMENTS[5] = COMMENTS[5] + f', tài liệu số {doc_number+1} | trang {lsq_detect[1]}'
+                            else:
+                                COMMENTS[5] = f'Có dấu lãnh sự quán tài liệu số {doc_number+1} | trang {lsq_detect[1]}'
+                        comments.extend(final_result)
+                        if 0 in flags:
+                            vertical_results, horizontal_results, _ = cfs.deeplearning_reader(pdf_path, reader=reader, lsq_model=lsq_model, date_model=date_model, check_annot=False, images=images)
+                            
+                            final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data, file_pdf=pdf_path, vertical_results=vertical_results, horizontal_results=horizontal_results, no_eqt=no_eqt, no_code=no_code, check_annot=False, flags=flags, doc_number=doc_number+1, COMMENTS=COMMENTS, time_check=time_check)
+                            ERR.extend(err)
+                            comments.extend(final_result)
 
-            if not flags[5]:
-                comments.append({
-                                    "commentContent" : f"Không có dấu lãnh sự quán",
-                                    "commentStatus" : "NOK"
-                                })
-                ERR.append(7)
+                if not flags[5]:
+                    comments.append({
+                                        "commentContent" : f"Không có dấu lãnh sự quán",
+                                        "commentStatus" : "NOK"
+                                    })
+                    ERR.append(7)
 
-            attachmentFileList.append({'fileCommentList': comments})
-            
-            FLAGS = list(map(sum, zip(FLAGS,flags)))
+                attachmentFileList.append({
+                    'fileCommentList': comments,
+                    'fileName': info['name'],
+                    'fileStatus': 'NOK' if 0 in flags else 'OK',
+                    'fileUrl': info['url']
+                    })
+                
+                FLAGS = list(map(sum, zip(FLAGS,flags)))
 
-    else:
-        comments = {
-                    "commentContent" : f"Không có giấy CFS hoặc không tải được CFS",
-                    "commentStatus" : "NOK"
-                    }   
+        else:
+            comments = {
+                        "commentContent" : f"Không có giấy CFS hoặc không tải được CFS",
+                        "commentStatus" : "NOK"
+                        }   
     
     RESULTS = []
     if COMMENTS[-1]:
@@ -165,8 +185,15 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
             'attachmentComment': 'Không có dấu lãnh sự quán',
             'attachmentStatus': 'NOK'
             })
-        
-    return attachmentFileList, RESULTS, FLAGS, ERR
+    
+    OUTPUT = {
+        'attachmentCode': 'CNLH',
+        'attachmentFileList': attachmentFileList,
+        'attachmentName': attachmentName,
+        'result': RESULTS
+    }
+
+    return OUTPUT
 
 if __name__ == '__main__':
     
