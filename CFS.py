@@ -355,7 +355,7 @@ class CFS(object):
                 if check_annot:
                     dates = []
                     punc = {"?":" ", ".":" ", ";":" ", ":":" ", "!":" ", ",":" ","[":" ","]":" ","{":" ","}":" ", "-":"/", "tháng":"/", "năm":"/", "until": "",
-                            "juni":"jun", "juli":"jul", "mai":"may", "januar":"jan", "februar":'feb', "märz":"mar", "oktober":"oct", "dezember":"dec",
+                            "juni":"jun", "juli":"jul", "mai":"may", "januar":"jan", "februar":'february', "märz":"mar", "oktober":"oct", "dezember":"dec",
                             "janvier":"jan", "février":"feb", "mars":"mar", "avril":"apr", "juin":"jun", "juillet":"jul", "aout":"aug", "septembre":"sep", "octobre":"oct", "novembre":"nov", "décembre":"dec"}
                     valid_date = []
                     # for result in vertical_results:
