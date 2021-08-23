@@ -358,23 +358,23 @@ class CFS(object):
                             "juni":"jun", "juli":"jul", "mai":"may", "januar":"jan", "februar":'feb', "märz":"mar", "oktober":"oct", "dezember":"dec",
                             "janvier":"jan", "février":"feb", "mars":"mar", "avril":"apr", "juin":"jun", "juillet":"jul", "aout":"aug", "septembre":"sep", "octobre":"oct", "novembre":"nov", "décembre":"dec"}
                     valid_date = []
-                    for result in vertical_results:
-                        for dat in result:
-                            # print('dat: ', dat)
-                            dat = replace_all(re.sub(' +', ' ',dat.lower()), punc)[:-7]
-                            # print('dat: ', dat)
-                            try:
-                                date = list(datefinder.find_dates(dat.strip(), strict=False))
-                                # print('date: ', date)
-                                date = datefinder_process(date, dat)
-                                # print('date_process: ', date)
-                                for patern in valid_parten:
-                                    if patern in dat:
-                                        valid_flag = 1
-                                dates.extend(date)
-              
-                            except:
-                                continue
+                    # for result in vertical_results:
+                    for dat in vertical_results:
+                        # print('dat: ', dat)
+                        dat = replace_all(re.sub(' +', ' ',dat.lower()), punc)[:-7]
+                        # print('dat: ', dat)
+                        try:
+                            date = list(datefinder.find_dates(dat.strip(), strict=False))
+                            # print('date: ', date)
+                            date = datefinder_process(date, dat)
+                            # print('date_process: ', date)
+                            for patern in valid_parten:
+                                if patern in dat:
+                                    valid_flag = 1
+                            dates.extend(date)
+            
+                        except:
+                            continue
                     if valid_flag:
                         valid_date = dates
                     if valid_date:
