@@ -436,15 +436,16 @@ class CFS(object):
                     print('no_eqt: ', no_eqt)
                     comments.append({
                         "commentContent" : f"Danh sách chủng loại TTBYT ko đúng : {', '.join(n for n in no_eqt)}" if no_eqt else f"Danh sách chủng loại TTBYT không được đăng ký",
-                        "commentStatus" : "NOK"
+                        "commentStatus" : "NOK" if no_eqt else "OK"
                     })
+                    
                     err.append(4)
                 
                 if not flags[3]:
                     print(no_code)
                     comments.append({
                         "commentContent" : f"Danh sách mã TTBYT ko đúng : {' ,'.join(n for n in no_code)}" if no_code else f"Danh sách mã TTBYT không được đăng ký",
-                        "commentStatus" : "NOK"
+                        "commentStatus" : "NOK" if no_code else "OK"
                     })
                     err.append(5)
 

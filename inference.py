@@ -110,6 +110,11 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
                         }   
     
     RESULTS = []
+    if not no_eqt and not FLAGS[2]:
+        FLAGS[2]=1
+    if not no_code and not FLAGS[3]:
+        FLAGS[3]=1
+        
     if COMMENTS[-1]:
         RESULTS = {
             'attachmentComment': COMMENTS[-1],
@@ -148,10 +153,12 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
             # 'attachmentStatus': 'OK'
             # })
         else:
-            RESULTS.append({
-            'attachmentComment': 'Danh sách chủng loại TTBYT ko đúng',
-            'attachmentStatus': 'NOK'
-            })
+            if no_eqt:
+                RESULTS.append({
+                'attachmentComment': 'Danh sách chủng loại TTBYT ko đúng',
+                'attachmentStatus': 'NOK'
+                })
+            
         if COMMENTS[3]:
             pass
             # RESULTS.append({
@@ -159,10 +166,11 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
             # 'attachmentStatus': 'OK'
             # })
         else:
-            RESULTS.append({
-            'attachmentComment': 'Danh sách mã TTBYT ko đúng',
-            'attachmentStatus': 'NOK'
-            })
+            if no_code:
+                RESULTS.append({
+                'attachmentComment': 'Danh sách mã TTBYT ko đúng',
+                'attachmentStatus': 'NOK'
+                })
         if COMMENTS[4]:
             pass
             # RESULTS.append({
