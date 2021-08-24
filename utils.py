@@ -85,9 +85,14 @@ def rotate_box(point, angle=0):
     return point
 
 def annot_box(page,zoom):
-    drawed = page.get_drawings()
-    annot = page.annots()
-    
+    try:
+        drawed = page.get_drawings()
+    except:
+        drawed = []
+    try:
+        annot = page.annots()
+    except:
+        annot = []
     p = []
 
     for a in annot:
