@@ -245,7 +245,7 @@ class CFS(object):
                         err.append(1)
                     doc_type = 1
                     flags = [1,1,1,1,1,1]
-                    return comments, doc_type, err, flags, COMMENTS
+                    return comments, doc_type, err, flags, COMMENTS, no_eqt, no_code
 
             if not flags[0]:
                 if factory_name:
