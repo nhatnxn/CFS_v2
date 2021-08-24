@@ -15,7 +15,7 @@ from yolo_detection import detect_batch_frame
 # from date_detection import date_detect
 import onnxruntime
 import datetime
-from googletrans import Translator
+# from googletrans import Translator
 
 # from elasticsearch import Elasticsearch, helpers
 
@@ -231,9 +231,9 @@ def datefinder_process(date, dat):
 #   results = [text for _, text in search(query, limit * 10)]
 #   return [(score, results[x]) for x, score in similarity(query, results)][:limit]
 
-def trans(query,translator=translator):
-    result = translator.translate(query, src='vi', dest='en')
-    return result.text
+# def trans(query,translator=translator):
+#     result = translator.translate(query, src='vi', dest='en')
+#     return result.text
 
 def compare(str_1, str_2, func = fuzz.token_set_ratio, score = 50):
     if func(str_1, str_2) > score:

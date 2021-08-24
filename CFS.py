@@ -1,5 +1,5 @@
 import fitz
-from util import *
+from utils import *
 import json
 import numpy as np
 import time 
