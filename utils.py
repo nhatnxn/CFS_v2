@@ -25,7 +25,7 @@ provider = os.getenv('PROVIDER', 'CUDAExecutionProvider')
 lsq_model = onnxruntime.InferenceSession("models/yolov5/lsq.onnx", providers=[provider])
 date_model = onnxruntime.InferenceSession("models/yolov5/date.onnx", providers=[provider])
 
-translator = Translator()
+# translator = Translator()
 
 def convert_img(page, zoom = 2.2):
     mat = fitz.Matrix(zoom, zoom)
