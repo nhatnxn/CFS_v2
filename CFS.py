@@ -294,16 +294,16 @@ class CFS(object):
                         # t_score = []
                         # for t_equipment in t_equipments:
                         #     t_score.append(fuzz.token_set_ratio(re.sub(' +', ' ',re.sub(r'[^\w\s]','',t_equipment[:-7].lower())), re.sub(' +', ' ',re.sub(r'[^\w\s]','',eqt.lower()))) if t_equipment else 0)
-                        
-                        if not t_score[0]:
-                            no_eqt.append(eqt)
-                            no_eqt = set(no_eqt)
-                            no_eqt = list(no_eqt)
-                        else:
-                            try:
-                                no_eqt.remove(eqt)
-                            except:
-                                continue
+                        if t_score:
+                            if not t_score[0]:
+                                no_eqt.append(eqt)
+                                no_eqt = set(no_eqt)
+                                no_eqt = list(no_eqt)
+                            else:
+                                try:
+                                    no_eqt.remove(eqt)
+                                except:
+                                    continue
                         
                 if not no_eqt and eqt_types:
                     comments.append({
@@ -327,15 +327,16 @@ class CFS(object):
                         
                         # for t_code in t_codes:
                         #     code_score.append(fuzz.token_set_ratio(re.sub(r'[^\w\s]','',t_code[:-7]), re.sub(r'[^\w\s]','',code)))
-                        if not code_score[0]:                        
-                            no_code.append(code)
-                            no_code = set(no_code)
-                            no_code = list(no_code)
-                        else:
-                            try:
-                                no_code.remove(code)
-                            except:
-                                continue
+                        if code_score:
+                            if not code_score[0]:                        
+                                no_code.append(code)
+                                no_code = set(no_code)
+                                no_code = list(no_code)
+                            else:
+                                try:
+                                    no_code.remove(code)
+                                except:
+                                    continue
 
                 if not no_code and eqt_code:
                     comments.append({
