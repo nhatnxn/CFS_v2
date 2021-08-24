@@ -57,7 +57,7 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
                     comments = []
                     if "PHIẾU TIẾP NHẬN" in text['page_1']:
                         output = cfs.get_ptn_info(text)
-                        final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data,vertical_result=output, no_eqt=no_eqt, no_code=no_code, ptn=True,flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
+                        final_result, doc_type, err, flags, COMMENTS, no_eqt, no_code = cfs.final_result(query=json_data,vertical_results=output, no_eqt=no_eqt, no_code=no_code, ptn=True,flags=flags, COMMENTS=COMMENTS, doc_number=doc_number+1, time_check=time_check)
                         ERR.extend(err)
                         comments.extend(final_result)
                         print('ptn_flags: ', flags)
@@ -193,33 +193,52 @@ def getInfoCFS(json_data, reader, lsq_model, date_model, time_check = datetime.d
         'result': RESULTS
     }
 
-    return OUTPUT
+    return OUTPUT, FLAGS
 
 if __name__ == '__main__':
     
-    json_folder = 'input_dmec'
+    json_folder = 'input_dmec1'
     checkpoint = []
     check_valid = []
     check_sig = []
     
-    files = ['33204_000.00.04.G18-210427-0018.json']
-    # for file in os.listdir(json_folder):
-    for file in files:
+    # files = ['33204_000.00.04.G18-210427-0018.json']
+    for file in os.listdir(json_folder):
+    # for file in files:
         file_path = file
         json_file = os.path.join(json_folder,file_path)
-        attachmentFileList, RESULTS, FLAGS, err = getInfoCFS(json_file,file_path, check_valid, check_sig)
-        result = {
-                    'attachmentFileList': attachmentFileList,
-                    'result': RESULTS
-                }
-        print(result)
-        if not RESULTS:
-            if not os.path.exists('file_fail.json'):
-                with open('file_fail.json','w') as jsonfile:
-                    json.dump([], file)
-            file_err = json.load(open('file_fail.json','r'))
-            with open('file_fail.json','w') as jsonfile:
-                json.dump(file_err, jsonfile)
-            continue
+        t1 = time.time()
+        OUTPUT, FLAGS, = getInfoCFS(json_file,file_path, check_valid, check_sig)
+        t = time.time() - t1
+        # result = {
+        #             'attachmentFileList': attachmentFileList,
+        #             'result': RESULTS
+        #         }
+        # print(result)
+        # if not RESULTS:
+        #     if not os.path.exists('file_fail.json'):
+        #         with open('file_fail.json','w') as jsonfile:
+        #             json.dump([], file)
+        #     file_err = json.load(open('file_fail.json','r'))
+        #     with open('file_fail.json','w') as jsonfile:
+        #         json.dump(file_err, jsonfile)
+        #     continue
+        # with open(os.path.join('output',file_path),'w') as output:
+        #     json.dump(result,output)
+
         with open(os.path.join('output',file_path),'w') as output:
-            json.dump(result,output)
+            json.dump(OUTPUT,output)
+        dic = {
+            'file_name': file_path,
+            'time': t,
+        #   'type': type_file,
+            'err': FLAGS
+        }
+        if not os.path.exists('348_checkpoint.json'):
+            with open('348_checkpoint.json','w') as jsonfile:
+                json.dump([], jsonfile)
+        checkpoint = json.load(open('348_checkpoint.json','r'))
+        checkpoint.append(dic)
+        print(checkpoint)
+        with open('348_checkpoint.json','w') as jsonfile:
+            json.dump(checkpoint, jsonfile)
