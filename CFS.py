@@ -180,6 +180,8 @@ class CFS(object):
                 eqt_types.extend(eqt_type)
                 # if eqt_type:
                 #     eqt_name.append([eqt,eqt_type])
+        eqt_types=set(eqt_types)
+        eqt_types=list(eqt_types)
         print('eqt_name: ', eqt_types)
 
         eqt_code = []
@@ -187,6 +189,8 @@ class CFS(object):
             if info['code']:
                 codes = [code for code in info['code'].replace(';',',').replace('\r', '').replace('\n',',').split(',')]
                 eqt_code.extend(codes)
+        eqt_code=set(eqt_code)
+        eqt_code=list(eqt_code)
         print('eqt_code: ', eqt_code)
 
         punc_search = {':':'','/':' ','{':' ','}':' ','(':' ',')':' ','[':' ',']':' ','^':'','"':''}
