@@ -221,9 +221,9 @@ def datefinder_process(date, dat):
         _d = _d.replace(tzinfo=None)
         if _d > datetime.timedelta(days=2000) + datetime.datetime.now() or _d < datetime.datetime.now() - datetime.timedelta(days=2000):
            continue
-        year = str(_d.year)
-        month = str(_d.month)
-        month_name = str(_d.strftime("%b"))
+        year = str(_d.year).lower()
+        month = str(_d.month).lower()
+        month_name = str(_d.strftime("%b")).lower()
         if (month in dat or month_name in dat) and year in dat:
             dates.append(_d)
     return dates
